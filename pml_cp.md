@@ -53,7 +53,7 @@ library(randomForest)
 ```
 
 # Load and process the data
-Here we load the data files (training and testing), clean them by removing NA,  missing values, and columns that do not contribute to prediction. Then, we split the training dataset to two sets, 60% for training, and 40% for testing.
+Here we load the data files (training and testing), clean them by removing NA,  missing values, and columns that do not contribute to prediction. Then, we split the training dataset to two sets, 60% for training and 40% for testing.
 
 ```r
 # Load data files
@@ -77,7 +77,7 @@ training_2_test <- training_2[-inTrain,]
 ```
 
 # Prediction
-Here we create a random forest model, first with our small dataset (60% of the initial training set) and then with our full training set. Meanwhile we try to cross-tabulate the results by using the confusionMatrix method but an error regarding a missing package (e1071) stopped this process ("Error in requireNamespaceQuietStop("e1071") : package e1071 is required"). Unfortunatelly I couldn't fix it even by following the online help, the specific package couldn't be downloaded and installed. If you had a similar problem feel free to tell me your solution on the comments. The confusionMatrix line is commented in order to knit HTML. Lastly, the estimate of error rate is 0.64%.
+Here we create a random forest model, first with our small dataset (60% of the initial training set) and then with our full training set. Meanwhile we try to cross-tabulate the results by using the confusionMatrix method but an error regarding a missing package (e1071) stopped this process ("Error in requireNamespaceQuietStop("e1071") : package e1071 is required"). Unfortunatelly I couldn't fix it even by following the online help, the specific package couldn't be downloaded and installed. If you had a similar problem feel free to tell me your solution on the comments, it would be greatly appreciated. Thus, The confusionMatrix line is commented in order to knit HTML. Lastly, the estimate of error rate is 0.64%.
 
 ```r
 # A random forest model with 1000 trees
@@ -105,7 +105,7 @@ forestModel
 ```
 
 ```r
-# Apply the training prediction on the testing dataset and cross-tabulate the observed and predicted classes using the confusionMatrix method
+# Apply the model on the testing dataset and cross-tabulate the observed and predicted classes using the confusionMatrix method
 prediction <- predict(forestModel, training_2_test)
 #confusionMatrix(prediction, training_2_test$classe)
 
