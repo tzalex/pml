@@ -1,0 +1,130 @@
+# Practical Machine Learning (Johns Hopkins University) - Prediction Assignment Writeup
+
+
+
+# Introduction
+Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement - a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: http://groupware.les.inf.puc-rio.br/har (see the section on the Weight Lifting Exercise Dataset).
+
+The goal of your project is to predict the manner in which they did the exercise. This is the "classe" variable in the training set. You may use any of the other variables to predict with. You should create a report describing how you built your model, how you used cross validation, what you think the expected out of sample error is, and why you made the choices you did. You will also use your prediction model to predict 20 different test cases.
+
+# Load libraries
+
+```r
+# Load libraries
+library(caret)
+```
+
+```
+## Warning: package 'caret' was built under R version 3.2.5
+```
+
+```
+## Loading required package: lattice
+```
+
+```
+## Loading required package: ggplot2
+```
+
+```r
+library(randomForest)
+```
+
+```
+## Warning: package 'randomForest' was built under R version 3.2.5
+```
+
+```
+## randomForest 4.6-12
+```
+
+```
+## Type rfNews() to see new features/changes/bug fixes.
+```
+
+```
+## 
+## Attaching package: 'randomForest'
+```
+
+```
+## The following object is masked from 'package:ggplot2':
+## 
+##     margin
+```
+
+# Load and process the data
+Here we load the data files (training and testing), clean them by removing NA,  missing values, and columns that do not contribute to prediction. Then, we split the training dataset to two sets, 60% for training and 40% for testing.
+
+```r
+# Load data files
+training <- read.csv("pml-training.csv", na.strings=c("NA", ""))
+testing <- read.csv("pml-testing.csv", na.strings=c("NA", ""))
+
+# Clean data
+# Remove columns with missing values
+training_1 <- training[, colSums(is.na(training))==0]
+testing_1 <- testing[, colSums(is.na(testing))==0]
+# Remove the columns which do not contribute to prediction, like name and time
+# These are the first 7 columns of the dataset
+training_2 <- training_1[, -(1:7)]
+testing_2 <- testing_1[, -(1:7)]
+
+# Split the training dataset to two sets (one for training and one for testing)
+set.seed(8642)
+inTrain <- createDataPartition(training_2$classe, p=0.60, list=FALSE)
+training_2_train <- training_2[inTrain,]
+training_2_test <- training_2[-inTrain,]
+```
+
+# Prediction
+Here we create a random forest model, first with our small dataset (60% of the initial training set) and then with our full training set. Meanwhile we try to cross-tabulate the results by using the confusionMatrix method but an error regarding a missing package (e1071) stopped this process ("Error in requireNamespaceQuietStop("e1071") : package e1071 is required"). Unfortunatelly I couldn't fix it even by following the online help, the specific package couldn't be downloaded and installed. If you had a similar problem feel free to tell me your solution on the comments, it would be greatly appreciated. Thus, The confusionMatrix line is commented in order to knit HTML. Lastly, the estimate of error rate is 0.64%.
+
+```r
+# A random forest model with 1000 trees
+set.seed(8642)
+forestModel <- randomForest(classe~., data=training_2_train, ntree=1000)
+forestModel
+```
+
+```
+## 
+## Call:
+##  randomForest(formula = classe ~ ., data = training_2_train, ntree = 1000) 
+##                Type of random forest: classification
+##                      Number of trees: 1000
+## No. of variables tried at each split: 7
+## 
+##         OOB estimate of  error rate: 0.64%
+## Confusion matrix:
+##      A    B    C    D    E class.error
+## A 3342    4    0    1    1 0.001792115
+## B   12 2262    5    0    0 0.007459412
+## C    0   14 2036    4    0 0.008763389
+## D    0    0   22 1905    3 0.012953368
+## E    0    0    2    7 2156 0.004157044
+```
+
+```r
+# Apply the model on the testing dataset and cross-tabulate the observed and predicted classes using the confusionMatrix method
+prediction <- predict(forestModel, training_2_test)
+#confusionMatrix(prediction, training_2_test$classe)
+
+# Train again the model on the full training dataset 
+forestModel <- randomForest(classe~., data=training_2, ntree=1000)
+```
+
+# Apply the machine learning algorithm to the 20 test cases
+For the last part of the project we have to use the prediction model to predict some test cases.
+
+```r
+# Predictions for the test cases
+testCases <- predict(forestModel, testing_2)
+testCases
+```
+
+```
+##  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 
+##  B  A  B  A  A  E  D  B  A  A  B  C  B  A  E  E  A  B  B  B 
+## Levels: A B C D E
+```
