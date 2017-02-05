@@ -106,7 +106,8 @@ forestModel
 ```
 
 ```r
-# Apply the model on the testing dataset and cross-tabulate the observed and predicted classes using the confusionMatrix method
+# Apply the model on the testing dataset and cross-tabulate the observed and predicted classes
+# using the confusionMatrix method
 prediction <- predict(forestModel, training_2_test)
 #confusionMatrix(prediction, training_2_test$classe)
 

@@ -185,7 +185,8 @@ forestModel</code></pre>
 ## C    0   14 2036    4    0 0.008763389
 ## D    0    0   22 1905    3 0.012953368
 ## E    0    0    2    7 2156 0.004157044</code></pre>
-<pre class="r"><code># Apply the model on the testing dataset and cross-tabulate the observed and predicted classes using the confusionMatrix method
+<pre class="r"><code># Apply the model on the testing dataset and cross-tabulate the observed and predicted classes
+# using the confusionMatrix method
 prediction &lt;- predict(forestModel, training_2_test)
 #confusionMatrix(prediction, training_2_test$classe)
 
