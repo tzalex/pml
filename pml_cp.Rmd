@@ -38,7 +38,7 @@ testing_2 <- testing_1[, -(1:7)]
 
 # Split the training dataset to two sets (one for training and one for testing)
 set.seed(8642)
-inTrain <- createDataPartition(training_1$classe, p=0.60, list=FALSE)
+inTrain <- createDataPartition(training_2$classe, p=0.60, list=FALSE)
 training_2_train <- training_2[inTrain,]
 training_2_test <- training_2[-inTrain,]
 ```
