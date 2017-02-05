@@ -45,7 +45,7 @@ training_2_test <- training_2[-inTrain,]
 ```
 
 # Prediction
-Here we create a random forest model, first with our small dataset (60% of the initial training set) and then with our full training set. Meanwhile we try to cross-tabulate the results by using the confusionMatrix method but an error regarding a missing package (e1071) stopped this process ("Error in requireNamespaceQuietStop("e1071") : package e1071 is required"). Unfortunatelly I couldn't fix it even by following the online help, the specific package couldn't be downloaded and installed. If you had a similar problem feel free to tell me your solution on the comments, it would be greatly appreciated. Thus, The confusionMatrix line is commented in order to knit HTML. Lastly, the estimate of error rate is 0.64%.
+Here we create a random forest model, first with our small dataset (60% of the initial training set) and then with our full training set. Meanwhile we try to cross-tabulate the results by using the confusionMatrix method but an error regarding a missing package (e1071) stopped this process ("Error in requireNamespaceQuietStop("e1071") : package e1071 is required"). Unfortunatelly I couldn't fix it even by following the online help, the specific package couldn't be downloaded and installed. If you had a similar problem feel free to tell me your solution on the comments, it would be greatly appreciated. Thus, the confusionMatrix line is commented in order to knit HTML. Lastly, the estimate of error rate is 0.64%.
 ```{r}
 # A random forest model with 1000 trees
 set.seed(8642)
