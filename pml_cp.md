@@ -64,7 +64,7 @@ testing <- read.csv("pml-testing.csv", na.strings=c("NA", ""))
 # Remove columns with missing values
 training_1 <- training[, colSums(is.na(training))==0]
 testing_1 <- testing[, colSums(is.na(testing))==0]
-# Remove the columns which do not contribute to prediction, like name and time.
+# Remove the columns which do not contribute to prediction, like name and time
 # These are the first 7 columns of the dataset
 training_2 <- training_1[, -(1:7)]
 testing_2 <- testing_1[, -(1:7)]

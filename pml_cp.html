@@ -152,7 +152,7 @@ testing &lt;- read.csv(&quot;pml-testing.csv&quot;, na.strings=c(&quot;NA&quot;,
 # Remove columns with missing values
 training_1 &lt;- training[, colSums(is.na(training))==0]
 testing_1 &lt;- testing[, colSums(is.na(testing))==0]
-# Remove the columns which do not contribute to prediction, like name and time.
+# Remove the columns which do not contribute to prediction, like name and time
 # These are the first 7 columns of the dataset
 training_2 &lt;- training_1[, -(1:7)]
 testing_2 &lt;- testing_1[, -(1:7)]
